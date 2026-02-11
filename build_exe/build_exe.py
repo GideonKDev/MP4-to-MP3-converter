@@ -34,8 +34,26 @@ class EXEBuilder:
         
         if not icon_path.exists():
             print("Creating default icon...")
-            print("Warning: No icon.ico found. Create one for better appearance.")
-            return None
+            # Create a simple icon using PIL if available
+            try:
+                from PIL import Image, ImageDraw
+                
+                # Create 256x256 image
+                img = Image.new('RGBA', (256, 256), (74, 144, 226, 255))
+                draw = ImageDraw.Draw(img)
+                
+                # Draw simple play button
+                draw.polygon([(80, 70), (80, 186), (186, 128)], fill=(255, 255, 255, 255))
+                
+                # Save as ICO
+                img.save(icon_path, format='ICO')
+                print(f"Created default icon: {icon_path}")
+                
+            except ImportError:
+                print("Warning: No icon.ico found and PIL not available.")
+                print("Install PIL: pip install pillow")
+                return None
+        
         return icon_path
     
     def create_version_info(self):
@@ -58,15 +76,15 @@ class EXEBuilder:
     
     def create_spec_file(self, main_script, icon_path=None):
         """Create PyInstaller spec file"""
-        spec_content = f'''# -*- mode: python ; coding: utf-8 -*-
+        icon_str = repr(str(icon_path)) if icon_path else None
+        
+        spec_content = '''# -*- mode: python ; coding: utf-8 -*-
 import sys
 import os
 from PyInstaller.utils.hooks import collect_submodules, collect_data_files
 
-# Block RT mode for Windows 10/11
 block_cipher = None
 
-# List of hidden imports (modules that PyInstaller might miss)
 hiddenimports = [
     'PyQt6', 'PyQt6.QtCore', 'PyQt6.QtGui', 'PyQt6.QtWidgets',
     'moviepy', 'mutagen', 'numpy', 'PIL', 'PIL._imaging',
@@ -77,14 +95,11 @@ hiddenimports = [
     'concurrent.futures', 'multiprocessing', 'multiprocessing.pool'
 ]
 
-# Additional data files (icons, configs, etc.)
 datas = []
-
-# Add icon if exists
-icon_path = {repr(str(icon_path)) if icon_path else None}
+icon_path = ''' + str(icon_str) + '''
 
 a = Analysis(
-    ['{main_script}'],
+    ['{0}'],
     pathex=[],
     binaries=[],
     datas=datas,
@@ -99,8 +114,7 @@ a = Analysis(
     noarchive=False,
 )
 
-# Console or Windowed application
-console = False  # Set to True for console window, False for windowed app
+console = False
 
 pyz = PYZ(a.pure, a.zipped_data, cipher=block_cipher)
 
@@ -115,7 +129,7 @@ exe = EXE(
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
-    upx=True,  # Compress executable with UPX
+    upx=True,
     upx_exclude=[],
     runtime_tmpdir=None,
     console=console,
@@ -127,7 +141,6 @@ exe = EXE(
     icon=icon_path,
 )
 
-# Optional: Create single EXE file
 coll = COLLECT(
     exe,
     a.binaries,
@@ -138,7 +151,7 @@ coll = COLLECT(
     upx_exclude=[],
     name='MP4toMP3'
 )
-'''
+'''.format(str(main_script))
         
         with open(self.spec_file, 'w') as f:
             f.write(spec_content)
@@ -225,36 +238,37 @@ coll = COLLECT(
             result = subprocess.run(cmd, capture_output=True, text=True)
             
             if result.returncode == 0:
-                print("\nBuild successful!")
+                print("\n✅ Build successful!")
                 
                 exe_path = self.dist_dir / "MP4toMP3.exe"
                 if exe_path.exists():
-                    print(f"\nEXE created at: {exe_path}")
-                    print(f"Size: {exe_path.stat().st_size / (1024*1024):.2f} MB")
+                    size_mb = exe_path.stat().st_size / (1024*1024)
+                    print(f"\n🎉 EXE created at: {exe_path}")
+                    print(f"Size: {size_mb:.2f} MB")
                     
                     # Create README file
-                    self.create_readme(exe_path)
+                    self.create_readme(exe_path, size_mb)
                     
                     return True, str(exe_path)
                 else:
                     return False, "EXE was not created (check build folder)"
             else:
-                print(f"\n Build failed!")
+                print(f"\nBuild failed!")
                 print(f"Error: {result.stderr}")
                 return False, result.stderr
                 
         except Exception as e:
             return False, str(e)
     
-    def create_readme(self, exe_path):
+    def create_readme(self, exe_path, size_mb):
         """Create a README file for the EXE"""
-       # readme_content = f'''# MP4 to MP3 Converter - Windows Executable
+        readme_content = f"""# MP4 to MP3 Converter - Windows Executable
 
 ## Application Details
 - **File:** {exe_path.name}
 - **Version:** 1.0.0
 - **Platform:** Windows 10/11 (64-bit)
-- **Size:** {exe_path.stat().st_size / (1024*1024):.2f} MB
+- **Size:** {size_mb:.2f} MB
 
 ## Requirements
 - Windows 10 or 11 (64-bit recommended)
