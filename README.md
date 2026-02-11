@@ -34,7 +34,7 @@ A professional desktop application for converting MP4 video files to MP3 audio f
 **Step 1: Clone the repository**
 
 ```bash
-git clone [https://github.com/yourusername/mp4tomp3-converter.git](https://github.com/yourusername/mp4tomp3-converter.git)
+git clone https://github.com/GideonKDev/MP4-to-MP3-converter.git
 cd mp4tomp3-converter
 ```
 ### step 2: Install dependencies
