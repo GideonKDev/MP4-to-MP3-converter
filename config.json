@@ -1,0 +1,10 @@
+{
+    "default_bitrate": "256k",
+    "default_format": "mp3",
+    "normalize_audio": true,
+    "target_level": -1.0,
+    "extract_cover_art": true,
+    "max_workers": 4,
+    "output_directory": "./converted",
+    "log_level": "INFO"
+}
