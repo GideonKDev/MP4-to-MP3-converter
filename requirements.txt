@@ -1,0 +1,61 @@
+# ============================================
+# MP4 to MP3 Converter Pro - Requirements
+# ============================================
+
+# Core Application Dependencies
+PyQt6>=6.5.0                    # Modern GUI framework
+moviepy>=1.0.3                  # Video editing and conversion
+mutagen>=1.46.0                 # Audio metadata handling
+Pillow>=10.0.0                  # Image processing for icons and covers
+numpy>=1.24.0                   # Numerical operations for audio processing
+requests>=2.31.0                # HTTP requests for future features
+
+# Audio/Video Processing Extras
+imageio>=2.31.0                 # Image I/O support
+imageio-ffmpeg>=0.4.8           # FFmpeg integration for imageio
+tqdm>=4.66.0                    # Progress bars for conversions
+colorama>=0.4.6                 # Colored terminal output
+python-dotenv>=1.0.0            # Environment configuration
+
+# Utility Libraries
+python-dateutil>=2.8.2          # Date/time utilities
+pytz>=2023.3                    # Timezone support
+six>=1.16.0                     # Python 2/3 compatibility
+typing-extensions>=4.8.0        # Type hints support
+
+# Windows Specific (Optional)
+pywin32>=305                    # Windows API integration
+pypiwin32>=223                  # Windows installer support
+
+# Development Tools
+black>=23.0.0                   # Code formatting
+flake8>=6.0.0                   # Code linting
+isort>=5.12.0                   import sorting
+pytest>=7.4.0                   # Testing framework
+pytest-qt>=4.2.0                # PyQt testing
+pytest-cov>=4.1.0               # Test coverage
+sphinx>=7.2.0                   # Documentation generation
+sphinx-rtd-theme>=1.3.0         # ReadTheDocs theme
+
+# EXE Building
+pyinstaller>=5.13.0             # Create standalone executables
+pyinstaller-hooks-contrib>=2023.8  # Additional PyInstaller hooks
+pefile>=2023.2.0                # PE file analysis (Windows EXE)
+pycryptodome>=3.18.0            # Encryption for EXE protection
+
+# Optional Dependencies (Comment out if not needed)
+# opencv-python>=4.8.0          # Advanced video processing
+# pydub>=0.25.1                  # Audio processing alternative
+# scipy>=1.11.0                  # Scientific computing
+# matplotlib>=3.7.0              # Plotting and visualization
+
+# ============================================
+# Platform Notes:
+# ============================================
+# Windows: Requires pywin32 for best performance
+# macOS:   Requires 'brew install ffmpeg' separately
+# Linux:   Requires 'sudo apt install ffmpeg' separately
+#
+# FFmpeg is NOT included in requirements.txt
+# Users must install FFmpeg separately on their system
+# ============================================
