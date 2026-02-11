@@ -248,7 +248,7 @@ coll = COLLECT(
     
     def create_readme(self, exe_path):
         """Create a README file for the EXE"""
-        readme_content = f'''# MP4 to MP3 Converter - Windows Executable
+       # readme_content = f'''# MP4 to MP3 Converter - Windows Executable
 
 ## Application Details
 - **File:** {exe_path.name}
