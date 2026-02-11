@@ -238,12 +238,12 @@ coll = COLLECT(
             result = subprocess.run(cmd, capture_output=True, text=True)
             
             if result.returncode == 0:
-                print("\n✅ Build successful!")
+                print("\nBuild successful!")
                 
                 exe_path = self.dist_dir / "MP4toMP3.exe"
                 if exe_path.exists():
                     size_mb = exe_path.stat().st_size / (1024*1024)
-                    print(f"\n🎉 EXE created at: {exe_path}")
+                    print(f"\nEXE created at: {exe_path}")
                     print(f"Size: {size_mb:.2f} MB")
                     
                     # Create README file
