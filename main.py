@@ -15,7 +15,7 @@ from dataclasses import dataclass
 from typing import List, Dict, Optional
 import logging
 
-# PyQt6 imports
+# PyQt6 imports - NO need for "import PyQt6" line
 from PyQt6.QtWidgets import (
     QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
     QLabel, QPushButton, QListWidget, QListWidgetItem, QProgressBar,
