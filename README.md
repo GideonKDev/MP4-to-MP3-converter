@@ -2,7 +2,6 @@
 
 A professional desktop application for converting MP4 video files to MP3 audio format with a beautiful GUI interface.
 
-![Screenshot](https://screenshot.png)
 
 ## Features
 
