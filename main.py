@@ -1388,7 +1388,7 @@ class MainWindow(QMainWindow):
         QMessageBox.information(
             self,
             "Documentation",
-            "Documentation is available at:\nhttps://github.com/yourusername/mp4-to-mp3-converter"
+            "Documentation is available at:\nhttps://github.com/GideonKDev/mp4-to-mp3-converter"
         )
         
     def closeEvent(self, event):
